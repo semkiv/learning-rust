@@ -88,4 +88,11 @@ fn main() {
         1 =>  println!("one"),
         _ => (), // `match` operator is exhaustive so we have to handle all possible cases; however we can use a placeholder `_` that will match any value, it's often used with the unit value `()`
     }
+
+    // when we care only about one value `match` is usually too verbose; an alternative is `if let <pattern> = <value>`
+    if let 0 = some_value {
+        println!("Encountered a zero value!");
+    } else { // `else` block is optional as ususal, `if let` is not exhaustive
+        println!("Encountered a non-zero value!");
+    }
 }
