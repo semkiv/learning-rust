@@ -28,7 +28,17 @@ fn main() {
     m.call();
 
     // Rust does not have `null`s. Instead there's `Option<T>` enum that can be either `Some(T)` or `None`
-    let _some_number = Some(42);
     let _some_string = Some("lorem ipsum");
-    let _absent_number: Option<i32> = None;
+
+    let some_number = Some(42);
+    print_optional_number(&some_number);
+    let absent_number: Option<i32> = None;
+    print_optional_number(&absent_number);
+}
+
+fn print_optional_number(x: &Option<i32>) {
+    match x {
+        None => println!("None"),
+        Some(i) => println!("{}", i),
+    }
 }
