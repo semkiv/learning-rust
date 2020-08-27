@@ -81,4 +81,11 @@ fn main() {
     println!("{}", Coin::Nickel.value_in_cents());
     println!("{}", Coin::Dime.value_in_cents());
     println!("{}", Coin::Quarter(UsState::Alabama).value_in_cents());
+
+    let some_value = 42;
+    match some_value {
+        0 => println!("zero"),
+        1 =>  println!("one"),
+        _ => (), // `match` operator is exhaustive so we have to handle all possible cases; however we can use a placeholder `_` that will match any value, it's often used with the unit value `()`
+    }
 }
