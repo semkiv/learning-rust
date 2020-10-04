@@ -19,3 +19,20 @@ pub mod guess {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::guess::Guess;
+
+    #[test]
+    #[should_panic(expected = "Guess value must be between 1 and 100")] // `should_panic` attribute makes a test pass if the code inside the function panics; the panic message has to contain the `expected` parameter value
+    fn greater_than_one_hundred() {
+        Guess::new(200);
+    }
+
+    #[test]
+    #[should_panic(expected = "Guess value must be between 1 and 100")]
+    fn less_than_one() {
+        Guess::new(0);
+    }
+}

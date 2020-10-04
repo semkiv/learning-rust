@@ -1,33 +1,9 @@
-#[derive(Debug)] // derived trait required for formatting
-struct Rectangle {
-    width: u32,
-    height: u32,
-}
+use rectangles::Rectangle;
 
-impl Rectangle { // methods in Rust are defined inside `impl` block
-    fn area(&self) -> u32 { // methods always take `self` as a first parameter; we still have to use `&` before `self` because methods are generally allowed to take the ownership of `self` (this is rare though, usually only when the method transforms self into something else and we want to prevent the caller from using the original instance after the transformation)
-        self.width * self.height
-    }
-}
-
-impl Rectangle { // there might be multiple `impl` blocks
-    fn print(&self) {
-        println!("{:#?}. Area: {} square pixels.", self, self.area());
-    }
-
-    fn square(size: u32) -> Rectangle { // this is an 'associated function'
-        Rectangle {
-            width: size,
-            height: size,
-        }
-    }
-}
+// Normally Rust projects that provide a binary have a straightforward `src/main.rs` file that calls logic that lives in the `src/lib.rs` file. The crates that are strictly binary (i.e. don't have `src/lib.rs`) can't have integration test created for them: they are meant to be run on their own and not integrate with anything.
 
 fn main() {
-    let rect = Rectangle {
-        width: 30,
-        height: 60,
-    };
+    let rect = Rectangle::new(30, 60);
     rect.print();
 
     let square = Rectangle::square(10);
