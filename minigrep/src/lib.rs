@@ -10,25 +10,26 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
+    pub fn new(mut args: impl Iterator<Item = String>) -> Result<Config, &'static str> {
+        args.next(); // skip program name
 
-        let query = args[1].clone();
-        let filename = args[2].clone();
-
-        let commnad_line_option_provided = args.len() >= 4
-                                           && (
-                                               args[3..].contains(&String::from("-i"))
-                                               || args[3..].contains(&String::from("--case-insensitive"))
-                                           );
-
-        let case_sensitive = if commnad_line_option_provided {
-            false
-        } else {
-            env::var("CASE_INSENSITIVE").is_err()
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
         };
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file name"),
+        };
+
+        let case_sensitive = match args.next() {
+            Some(arg) => {
+                !(arg.contains(&String::from("-i")) || arg.contains(&String::from("--case-insensitive")))
+            },
+            None => true,
+        };
+
+        let case_sensitive = case_sensitive && env::var("CASE_INSENSITIVE").is_err();
 
         Ok(
             Config {
@@ -57,28 +58,19 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
-
-    for line in contents.lines() {
-        if line.contains(query) {
-            results.push(line);
-        }
-    }
-
-    results
+    contents
+        .lines()
+        .filter(|line| line.contains(query))
+        .collect()
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let query = query.to_lowercase();
-    let mut results = Vec::new();
 
-    for line in contents.lines() {
-        if line.to_lowercase().contains(&query) {
-            results.push(line);
-        }
-    }
-
-    results
+    contents
+        .lines()
+        .filter(|line| line.to_lowercase().contains(&query))
+        .collect()
 }
 
 #[cfg(test)]
@@ -89,7 +81,8 @@ mod tests {
 
     #[test]
     fn not_enough_arguments() {
-        assert_eq!(Config::new(&vec![]), Err("not enough arguments"));
+        assert_eq!(Config::new(vec![String::from("dummy")].into_iter()), Err("Didn't get a query string"));
+        assert_eq!(Config::new(vec![String::from("dummy"), String::from("dummy")].into_iter()), Err("Didn't get a file name"));
     }
 
     #[test]
@@ -106,7 +99,7 @@ mod tests {
             case_sensitive: env::var("CASE_INSENSITIVE").is_err(),
         };
 
-        assert_eq!(Config::new(&args), Ok(expected_config));
+        assert_eq!(Config::new(args.into_iter()), Ok(expected_config));
     }
 
     #[test]
@@ -124,7 +117,7 @@ mod tests {
             case_sensitive: false,
         };
 
-        assert_eq!(Config::new(&args), Ok(expected_config));
+        assert_eq!(Config::new(args.into_iter()), Ok(expected_config));
     }
 
     #[test]
@@ -142,7 +135,7 @@ mod tests {
             case_sensitive: false,
         };
 
-        assert_eq!(Config::new(&args), Ok(expected_config));
+        assert_eq!(Config::new(args.into_iter()), Ok(expected_config));
     }
 
     #[test]
