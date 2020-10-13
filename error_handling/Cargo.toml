@@ -9,4 +9,4 @@ edition = "2018"
 [dependencies]
 
 [profile.release]
-panic = 'abort' # set the behaviour in case of `panic` to not do stack unwinding and leave to cleaning the OS for the release build
+panic = 'abort' # set the behaviour in case of `panic` to not do stack unwinding and leave the cleaning to the OS for the release build
