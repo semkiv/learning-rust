@@ -22,7 +22,7 @@ fn main() {
     let (_, _, z) = tuple_var_1; // destructuring the tuple
     println!("{}", z);
 
-    let tuple_var_2 : (f64, f64) = (f64::from(float_var), f64::from(int_var)); // tuple type with underlying types explicitly specified; implicit conversions are forbidden
+    let tuple_var_2: (f64, f64) = (f64::from(float_var), f64::from(int_var)); // tuple type with underlying types explicitly specified; implicit conversions are forbidden
     println!("{}", tuple_var_2.1); // accessing tuple members without destructuring
 
     let arr = [1, 2, 3]; // array
