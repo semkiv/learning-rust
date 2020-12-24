@@ -1,5 +1,5 @@
 fn main() {
-    const INITIAL_VALUE : i32 = 5; // a constant
+    const INITIAL_VALUE: i32 = 5; // a constant
 
     let x = INITIAL_VALUE;
     let x = x + 1; // shadowing
