@@ -24,7 +24,7 @@ fn main() {
     println!("LIFTOFF!!!");
 
     let a = [10, 20, 30, 40, 50];
-    // for loop interating over an array
+    // for loop iterating over an array
     for element in a.iter() {
         println!("{}", element);
     }
