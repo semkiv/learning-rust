@@ -15,4 +15,4 @@
 *.pdb
 
 # VS Code files
-/.vscode
+**/.vscode
