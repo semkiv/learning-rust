@@ -1,4 +1,4 @@
-pub use guess::Guess;
+pub use guess::Guess; // crates define their own modules, so without this `use guess::Guess` in main.rs would have to be `use guess::guess::Guess`; this essentially re-exports `Guess` onto the crate's level
 
 pub mod guess {
     pub struct Guess {
