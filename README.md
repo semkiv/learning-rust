@@ -4,7 +4,7 @@ A toy repository for keeping track of and syncing the progress of learning the R
 
 Based on [The Rust Programming Language](https://doc.rust-lang.org/book/title-page.html).
 
-Below are some useful config files for building, running and debugging in VS Code. `launch.json` differs between Linux and Windows due to different debuggers on those platforms.
+Below are some useful config files for building, running and debugging in VS Code. `launch.json` differs between Linux and Windows due to different debuggers and target names on those platforms.
 
 * **`tasks.json`**
 
