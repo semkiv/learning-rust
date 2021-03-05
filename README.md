@@ -64,6 +64,7 @@ Below are some useful config files for building, running and debugging in VS Cod
             {
                 "name": "(gdb) Launch",
                 "type": "cppdbg",
+                "miDebuggerPath": "rust-gdb",
                 "request": "launch",
                 "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
                 "args": [],
@@ -83,6 +84,7 @@ Below are some useful config files for building, running and debugging in VS Cod
             {
                 "name": "(gdb) Build (Debug) & Launch",
                 "type": "cppdbg",
+                "miDebuggerPath": "rust-gdb",
                 "preLaunchTask": "Build Debug",
                 "request": "launch",
                 "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
@@ -103,6 +105,7 @@ Below are some useful config files for building, running and debugging in VS Cod
             {
                 "name": "(gdb) Build (Release) & Launch",
                 "type": "cppdbg",
+                "miDebuggerPath": "rust-gdb",
                 "preLaunchTask": "Build Release",
                 "request": "launch",
                 "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
