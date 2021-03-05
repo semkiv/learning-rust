@@ -114,7 +114,7 @@ Below are some useful config files for building, running and debugging in VS Cod
             "group": "build"
         },
         {
-            "label": "Build Release",
+            "label": "Test",
             "type": "shell",
             "command": "cargo test",
             "problemMatcher": [],
