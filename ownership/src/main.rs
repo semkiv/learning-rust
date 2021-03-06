@@ -7,8 +7,8 @@ fn main() {
     println!("s2 = {}, s3 = {}", s2, s3);
 
     let x = 42;
-    moves(s3); // `s3` is no longer valid past this point
-    copies(x); // `x` however still is
+    takes_ownership(s3); // `s3` is no longer valid past this point
+    makes_copy(x); // `x` however still is - primitive types implement `Copy` trait (that indicates that an object of this type can be correctly copied bitwise); it's mutually exclusive with the `Drop` trait - if the type, or any of its parts, has implemented the `Drop` trait, it cannot implement `Copy` (but still can implement `Clone`)
     println!("{}", x);
 
     let s4 = String::from("Test");
@@ -16,11 +16,11 @@ fn main() {
     println!("s4 = {}, length = {}", s4, l);
 }
 
-fn moves(some_string: String) {
+fn takes_ownership(some_string: String) {
     println!("{}", some_string);
 }
 
-fn copies(some_integer: i32) {
+fn makes_copy(some_integer: i32) {
     println!("{}", some_integer);
 }
 
