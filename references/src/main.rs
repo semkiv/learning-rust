@@ -4,10 +4,10 @@ fn main() {
 
     let mut s2 = String::from("Hello");
     change(&mut s2); // passing the argument by mutable reference
-    let r1 = &s2; // there can be multiple immutable references, but...
-    let r2 = &s2;
+    let r1 = &s2;
+    let r2 = &s2; // there can be multiple immutable references, but...
     println!("{} {}", r1, r2);
-    let mr1 = &mut s2; // ...we cannot have mutable reference while there's immutable ones (but beacuse references live up to the point of th last usage, which is `println!` call in this particular case, this code compiles)...
+    let mr1 = &mut s2; // ...we cannot have mutable reference while there's immutable ones (but because references live up to the point of the last usage, which is `println!` call in this particular case, this code compiles)...
     // let mr2 = &mut s2; // ...and there can be only one mutable reference in a given scope
     change(mr1);
     println!("{}", s2);
