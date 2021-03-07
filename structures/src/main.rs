@@ -1,9 +1,9 @@
 fn main() {
-    let user1 = User {
-        email: String::from("user@example.com"), // fields does not necsarily have to be initialized in the same order as they were declared
+    let mut user1 = User {
+        email: String::from("user@example.com"),
         username: String::from("user123"),
-        is_active: true,
-        sign_in_count: 0
+        is_active: true, // fields do not necessarily have to be initialized in the same order as they were declared
+        sign_in_count: 0,
     };
 
     print_user(&user1);
@@ -12,10 +12,12 @@ fn main() {
 
     print_user(&user2);
 
+    user1.is_active = false; // in order to be able to mutate fields the whole struct must be mutable, Rust doesn’t allow to mark only certain fields as mutable
+
     let user3 = User {
         email: String::from("anotheruser@example.com"),
         username: String::from("anotheruser123"),
-        ..user1 // the 'struct update syntax' specifies that the remaining fields not explicitly set should have the same value as the fields in the given instance
+        ..user1 // the "struct update syntax" specifies that the remaining fields not explicitly set should have the same value as the fields in the given instance
     };
 
     print_user(&user3);
@@ -30,23 +32,26 @@ struct User {
     username: String,
     email: String,
     sign_in_count: u32,
-    is_active: bool
+    is_active: bool,
 }
 
-struct Color(u32, u32, u32); // these are called 'tuple structs'; they are distinct types but don't have named fields and in all other aspects behave identically to the tuples: can be destructured, idividual values can be accessed using .N etc.
+struct Color(u32, u32, u32); // these are called "tuple structs"; they are distinct types but don't have named fields and in all other aspects behave identically to the tuples: can be destructured, individual values can be accessed using `.N` etc.
 struct Point(f64, f64, f64);
 
 fn build_user(email: String, username: String) -> User {
     User {
-        email: email, // 'field init shorthand' allows not to repeat the name twice if the field and the parameter name match
-        username: username,
+        email, // "field init shorthand" allows not to repeat the name twice if the field and the parameter names match
+        username,
         is_active: true,
-        sign_in_count: 0
+        sign_in_count: 0,
     }
 }
 
 fn print_user(user: &User) {
-    println!("User {}. Email: {}, active: {}, sign in count: {}.", user.username, user.email, user.is_active, user.sign_in_count);
+    println!(
+        "User {}. Email: {}, active: {}, sign in count: {}.",
+        user.username, user.email, user.is_active, user.sign_in_count
+    );
 }
 
 fn print_point(point: &Point) {
