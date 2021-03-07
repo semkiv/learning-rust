@@ -1,10 +1,10 @@
-const DAYS_COUNT: usize = 12;
-
 fn main() {
     for day in 1..13 {
         println!("{}", generate_verse(day));
     }
 }
+
+const DAYS_COUNT: usize = 12;
 
 fn generate_verse(n: u32) -> String {
     const ORDINALS: [&str; DAYS_COUNT] = [
@@ -38,20 +38,18 @@ fn generate_gift_list(day: u32) -> String {
 
     let this_days_gift = GIFTS[(day - 1) as usize];
 
-    if day == 1 {
-        capitalize_first_letter(&String::from(this_days_gift))
-    } else if day == 2 {
-        format!(
+    match day {
+        1 => capitalize_first_letter(&String::from(this_days_gift)),
+        2 => format!(
             "{},\nAnd {}",
             capitalize_first_letter(&this_days_gift),
             GIFTS[(day - 2) as usize]
-        )
-    } else {
-        format!(
+        ),
+        _ => format!(
             "{},\n{}",
             capitalize_first_letter(&this_days_gift),
             generate_gift_list(day - 1)
-        )
+        ),
     }
 }
 
