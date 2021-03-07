@@ -1,20 +1,24 @@
 #[derive(Debug)]
 enum IpAddr {
-    V4(u8, u8, u8, u8), // data (any kind) can be attached directly to the enum which is super handy IMO
+    V4(u8, u8, u8, u8), // data (any kind) can be attached directly to an enum; in that respect they behave similarly to `std::variant` from C++
     V6(String),
 }
 
-#[derive(Debug)]
 enum Message {
-    _Quit,
-    _Move {x: i32, y: i32},
+    Quit,
+    Move { x: i32, y: i32 },
     Write(String),
-    _ChangeColor(u8, u8, u8),
+    ChangeColor(u8, u8, u8),
 }
 
-impl Message {
+impl Message { // enuns can have implementations just like structs
     fn call(&self) {
-        println!("Called!");
+        match self {
+            Message::Quit => println!("Quitting"),
+            Message::Move { x, y } => println!("Moving to x = {}, y = {}", x, y),
+            Message::Write(msg) => println!("Writing message '{}'", msg),
+            Message::ChangeColor(r, g, b) => println!("Changing color to rgb({}, {}, {})", r, g, b),
+        }
     }
 }
 
@@ -24,15 +28,21 @@ fn main() {
 
     println!("Home: {:?}, loopback: {:?}", home, loopback);
 
-    let m = Message::Write(String::from("hello!"));
-    m.call();
+    let msgs = [
+        Message::ChangeColor(255, 255, 255),
+        Message::Move { x: 42, y: -42 },
+        Message::Quit,
+        Message::Write(String::from("Hello world!")),
+    ];
+
+    for msg in msgs.iter() {
+        msg.call();
+    }
 
     // Rust does not have `null`s. Instead there's `Option<T>` enum that can be either `Some(T)` or `None`
-    let _some_string = Some("lorem ipsum");
-
     let some_number = Some(42);
-    print_optional_number(&some_number);
     let absent_number: Option<i32> = None;
+    print_optional_number(&some_number);
     print_optional_number(&absent_number);
 }
 
