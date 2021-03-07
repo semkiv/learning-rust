@@ -5,7 +5,7 @@ pub struct Rectangle {
 }
 
 impl Rectangle { // methods in Rust are defined inside `impl` block
-    pub fn area(&self) -> u32 { // methods always take `self` as a first parameter; we still have to use `&` before `self` because methods are generally allowed to take the ownership of `self` (this is rare though, usually only when the method transforms self into something else and we want to prevent the caller from using the original instance after the transformation)
+    pub fn area(&self) -> u32 { // methods always take `self` as a first parameter; we still have to use `&` before `self` because methods are generally allowed to take the ownership of `self` (this is rare though, usually only when the method transforms `self` into something else and we want to prevent the caller from using the original instance after the transformation)
         self.width * self.height
     }
 }
@@ -22,7 +22,7 @@ impl Rectangle { // there might be multiple `impl` blocks
         }
     }
 
-    pub fn square(size: u32) -> Rectangle { // this is an 'associated function'
+    pub fn square(size: u32) -> Rectangle { // this is an "associated function"
         Rectangle {
             width: size,
             height: size,
