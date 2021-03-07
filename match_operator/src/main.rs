@@ -62,16 +62,17 @@ enum Coin {
 impl Coin {
     fn value_in_cents(&self) -> u8 {
         match self {
-            Coin::Penny => { // `match` arms are expressions and and the resulting value of the expression in the matching arm is the value that gets returned for the entire match expression
+            Coin::Penny => {
+                // `match` arms are expressions and the resulting value of the expression in the matching arm is the value that gets returned for the entire match expression
                 println!("Lucky penny!");
                 1
-            },
+            }
             Coin::Nickel => 5,
             Coin::Dime => 10,
             Coin::Quarter(state) => {
                 println!("State quarter from {:?}!", state);
                 25
-            },
+            }
         }
     }
 }
@@ -85,14 +86,15 @@ fn main() {
     let some_value = 42;
     match some_value {
         0 => println!("zero"),
-        1 =>  println!("one"),
+        1 => println!("one"),
         _ => (), // `match` operator is exhaustive so we have to handle all possible cases; however we can use a placeholder `_` that will match any value, it's often used with the unit value `()`
     }
 
     // when we care only about one value `match` is usually too verbose; an alternative is `if let <pattern> = <value>`
     if let 0 = some_value {
         println!("Encountered a zero value!");
-    } else { // `else` block is optional as ususal, `if let` is not exhaustive
+    } else {
+        // `else` block is optional as ususal, `if let` is not exhaustive
         println!("Encountered a non-zero value!");
     }
 }
