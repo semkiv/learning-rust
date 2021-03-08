@@ -1,8 +1,6 @@
-pub use serving::take_order;
-pub use serving::serve_order;
-pub use serving::take_payment;
+pub use serving::*; // a glob operator can be used to re-export all `pub` items from `serving`; these re-exports make `serving`'s (a private module) `pub` functions available from outside
 
-pub mod serving {
+mod serving {
     pub fn take_order() {}
 
     pub fn serve_order() {}

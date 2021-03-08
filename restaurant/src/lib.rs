@@ -1,20 +1,11 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
-
-mod front_of_house; // load module from a separate file
-mod back_of_house;
+mod back_of_house; // load a module from a separate file
+mod front_of_house;
 
 pub use crate::front_of_house::hosting; // re-exporting the name so the external code could use it
 
 pub fn eat_at_restaurant() {
-
-    crate::front_of_house::hosting::add_to_waitlist(); // Absolute path. Starts from a crate root by using a crate name or a literal `crate`.
-    front_of_house::hosting::seat_at_table(); // A relative path. Starts from the current module and uses `self`, `super`, or an identifier in the current module.
+    crate::front_of_house::hosting::add_to_waitlist(); // an absolute path; starts from a crate root by using a crate name or a literal `crate`
+    front_of_house::hosting::seat_at_table(); // a relative path; starts from the current module and uses `self`, `super`, or an identifier in the current module
 
     let mut meal = back_of_house::Breakfast::summer("Rye");
     meal.toast = String::from("Wheat");
@@ -25,4 +16,12 @@ pub fn eat_at_restaurant() {
     back_of_house::cook_order();
     srv::serve_order();
     srv::take_payment();
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        assert_eq!(2 + 2, 4);
+    }
 }

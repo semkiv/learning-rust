@@ -1,6 +1,4 @@
-
-pub use back_of_house::Breakfast;
-pub use back_of_house::cook_order;
+pub use back_of_house::{cook_order, Breakfast}; // importing modules using nested paths; imports `back_of_house::cook_order` and `back_of_house::Breakfast`
 
 mod back_of_house {
     use crate::front_of_house::serving;
@@ -13,7 +11,7 @@ mod back_of_house {
     }
 
     pub struct Breakfast {
-        pub toast: String, // `struct` fields are private by default and need to be explicitly marked as `pub` when needed
+        pub toast: String, // struct fields are private by default even when the struct is `pub` and need to be explicitly marked as `pub` when needed
         _seasonal_fruit: String,
     }
 
@@ -27,7 +25,7 @@ mod back_of_house {
     }
 
     pub enum _Appetizer {
-        Soup, // `enum` variant all become public when the enum itself becomes public
+        Soup, // enum variants all become public when the enum itself becomes public
         Salad,
     }
 }
