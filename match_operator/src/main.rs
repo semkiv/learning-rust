@@ -94,7 +94,7 @@ fn main() {
     if let 0 = some_value {
         println!("Encountered a zero value!");
     } else {
-        // `else` block is optional as ususal, `if let` is not exhaustive
+        // `else` block is optional as usual, `if let` is not exhaustive
         println!("Encountered a non-zero value!");
     }
 }
