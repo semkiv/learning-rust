@@ -1,23 +1,5 @@
 use std::fmt::Display;
 
-struct ImportantExcerpt<'a> { // we can specify lifetime annotations on `struc`s too; here we basically state that an instance of `ImportantExcerpt` cannot outlive the reference it holds
-    part: &'a str,
-    s: &'static str, // `'static` lifetime is a special case for references that outlive the entire program execution
-}
-
-impl<'a> ImportantExcerpt<'a> {
-    // Explicit lifetime annotations are not required because of the first of the first Rust lifetime elision rules
-    fn level(&self) -> i32 {
-        3
-    }
-
-    // Explicit lifetime annotations are not required because of the first of the third Rust lifetime elision rules
-    fn announce_and_return_part(&self, announcement: &str) -> &str {
-        println!("Attention please: {}. {}.", announcement, self.s);
-        self.part
-    }
-}
-
 fn main() {
     let string1 = String::from("abcd");
     let string2 = "xyz";
@@ -44,9 +26,10 @@ fn main() {
     );
 }
 
-// Sometimes Rust compiler can’t tell whether the referenced object is still valid at them moment the reference to it is used.
-// Then it needs the lifetime annotations.
-fn longest<'a>(x: &'a str, y: &'a str) -> &'a str { // here we state that `x`, `y` and the returned value all must have the same lifetime referenced to as `a`
+// sometimes Rust compiler can’t tell whether the referenced object is still valid at them moment the reference to it is used
+// then it needs the lifetime annotations
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    // here we state that `x`, `y` and the returned value all must have the same lifetime referenced to as `a`
     if x.len() > y.len() {
         x
     } else {
@@ -54,11 +37,7 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str { // here we state that `x`, `
     }
 }
 
-fn longest_with_an_announcement<'a, T>(
-    x: &'a str,
-    y: &'a str,
-    ann: T,
-) -> &'a str
+fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
 where
     T: Display,
 {
@@ -67,5 +46,24 @@ where
         x
     } else {
         y
+    }
+}
+
+// we can specify lifetime annotations on structs too; here we basically state that an instance of `ImportantExcerpt` cannot outlive the reference it holds
+struct ImportantExcerpt<'a> {
+    part: &'a str,
+    s: &'static str, // `'static` lifetime is a special case for references that outlive the entire program execution
+}
+
+impl<'a> ImportantExcerpt<'a> {
+    // Explicit lifetime annotations are not required because of the first of the first Rust lifetime elision rules
+    fn level(&self) -> i32 {
+        3
+    }
+
+    // Explicit lifetime annotations are not required because of the first of the third Rust lifetime elision rules
+    fn announce_and_return_part(&self, announcement: &str) -> &str {
+        println!("Attention please: {}. {}.", announcement, self.s);
+        self.part
     }
 }
