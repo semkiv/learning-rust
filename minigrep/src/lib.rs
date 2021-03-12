@@ -24,20 +24,19 @@ impl Config {
 
         let case_sensitive = match args.next() {
             Some(arg) => {
-                !(arg.contains(&String::from("-i")) || arg.contains(&String::from("--case-insensitive")))
-            },
+                !(arg.contains(&String::from("-i"))
+                    || arg.contains(&String::from("--case-insensitive")))
+            }
             None => true,
         };
 
         let case_sensitive = case_sensitive && env::var("CASE_INSENSITIVE").is_err();
 
-        Ok(
-            Config {
-                query,
-                filename,
-                case_sensitive,
-            }
-        )
+        Ok(Config {
+            query,
+            filename,
+            case_sensitive,
+        })
     }
 }
 
@@ -77,12 +76,18 @@ pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a st
 mod tests {
     use super::*;
 
-    const POEM_FILE : &str = "resources/tests/poem.txt";
+    const POEM_FILE: &str = "resources/tests/poem.txt";
 
     #[test]
     fn not_enough_arguments() {
-        assert_eq!(Config::new(vec![String::from("dummy")].into_iter()), Err("Didn't get a query string"));
-        assert_eq!(Config::new(vec![String::from("dummy"), String::from("dummy")].into_iter()), Err("Didn't get a file name"));
+        assert_eq!(
+            Config::new(vec![String::from("dummy")].into_iter()),
+            Err("Didn't get a query string")
+        );
+        assert_eq!(
+            Config::new(vec![String::from("dummy"), String::from("dummy")].into_iter()),
+            Err("Didn't get a file name")
+        );
     }
 
     #[test]
@@ -144,10 +149,7 @@ mod tests {
 
         assert_eq!(
             Vec::new() as Vec<&str>,
-            search(
-                query,
-                &fs::read_to_string(POEM_FILE).unwrap()
-            )
+            search(query, &fs::read_to_string(POEM_FILE).unwrap())
         );
     }
 
@@ -160,10 +162,7 @@ mod tests {
                 "Then there’s a pair of us - don’t tell!",
                 "They’d banish us, you know."
             ],
-            search(
-                query,
-                &fs::read_to_string(POEM_FILE).unwrap()
-            )
+            search(query, &fs::read_to_string(POEM_FILE).unwrap())
         );
     }
 
@@ -177,10 +176,7 @@ mod tests {
                 "They’d banish us, you know.",
                 "To tell your name the livelong day",
             ],
-            search_case_insensitive(
-                query,
-                &fs::read_to_string(POEM_FILE).unwrap()
-            )
+            search_case_insensitive(query, &fs::read_to_string(POEM_FILE).unwrap())
         );
     }
 
