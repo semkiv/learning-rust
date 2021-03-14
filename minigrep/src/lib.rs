@@ -2,6 +2,7 @@ use std::env;
 use std::error::Error;
 use std::fs;
 
+/// Represents the configuration for grepping. This includes the file, the query and the case sensitivity option.
 #[derive(Debug, PartialEq)] // `Debug` and `PartialEq` traits are needed for this class to be used in `assert_eq!` macro that is a part of `not_enough_arguments` test
 pub struct Config {
     query: String,
@@ -10,6 +11,24 @@ pub struct Config {
 }
 
 impl Config {
+    /// Constructs new instance of `Config` based on the supplied command line arguments iterator.
+    ///
+    /// # Example
+    /// ```rust
+    /// use minigrep::Config;
+    ///
+    /// // minigrep you resources/tests/poem.txt
+    /// let args = vec![
+    ///     String::from("minigrep"),
+    ///     String::from("you"),
+    ///     String::from("resources/tests/poem.txt")
+    /// ];
+    ///
+    /// let config = Config::new(args.into_iter()).unwrap();
+    /// ```
+    ///
+    /// # Errors
+    /// This functions expects the program to be used like `minigrep QUERY FILE [-i;--case-insensitive]`. `QUERY` and `FILE` arguments are mandatory. The function will fail if either of them is missing returning `Err(&str)` with the error description.
     pub fn new(mut args: impl Iterator<Item = String>) -> Result<Config, &'static str> {
         args.next(); // skip program name
 
@@ -40,6 +59,25 @@ impl Config {
     }
 }
 
+/// This function is responsible for the main logic. Based on the supplied config does the following: reads the text from the file, performs the search, returns the matches (if any).
+///
+/// # Examples
+/// ```rust
+/// use minigrep::Config;
+///
+/// // minigrep you resources/tests/poem.txt
+/// let args = vec![
+///     String::from("minigrep"),
+///     String::from("you"),
+///     String::from("resources/tests/poem.txt")
+/// ];
+///
+/// let config = Config::new(args.into_iter()).unwrap();
+/// minigrep::run(config).unwrap();
+/// ```
+///
+/// # Errors
+/// The same as `std::fs::read_to_string`.
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.filename)?;
 
