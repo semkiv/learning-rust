@@ -1,8 +1,21 @@
+// the doc comments that start with a double slash and an exclamation mark add the documentation to the items they're in (rather than to the following items), in this particular case to the whole `minigrep` crate
+//! `minigrep` is a very basic grep-like utility. It preforms the (optionally case-insensitive) search for the given query in the supplied file and prints the matches (if any) to the standard output.
+//! Usage:
+//! ```text
+//! minigrep QUERY FILE [-i]
+//! ```
+//! Options:
+//! * `QUERY` - the query to search for. A mandatory parameter.
+//! * `FILE` - the file to search in. A mandatory parameter.
+//! * `-i`, `--case-insensitive` - optional parameter that controls whether the matching has to be case sensitive.
+//! * Case sensitivity is also controlled by `CASE_INSENSITIVE` environment variable. If it is set the matching will be case-insensitive.
+
 use std::env;
 use std::error::Error;
 use std::fs;
 
-/// Represents the configuration for grepping. This includes the file, the query and the case sensitivity option.
+// normally documenting comments start with three slashes instead of two; they add documentation to the items that follow them
+/// Represents the configuration for grepping. This includes the file, the query and the case sensitivity option
 #[derive(Debug, PartialEq)] // `Debug` and `PartialEq` traits are needed for this class to be used in `assert_eq!` macro that is a part of `not_enough_arguments` test
 pub struct Config {
     query: String,
@@ -11,10 +24,11 @@ pub struct Config {
 }
 
 impl Config {
+    // code examples in the doc comments become doc tests to make sure that the documentation is always relevant
     /// Constructs new instance of `Config` based on the supplied command line arguments iterator.
     ///
     /// # Example
-    /// ```rust
+    /// ```
     /// use minigrep::Config;
     ///
     /// // minigrep you resources/tests/poem.txt
@@ -62,7 +76,7 @@ impl Config {
 /// This function is responsible for the main logic. Based on the supplied config does the following: reads the text from the file, performs the search, returns the matches (if any).
 ///
 /// # Examples
-/// ```rust
+/// ```
 /// use minigrep::Config;
 ///
 /// // minigrep you resources/tests/poem.txt
