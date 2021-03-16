@@ -17,14 +17,20 @@ Below are some useful config files for building, running and debugging in VS Cod
             {
                 "label": "Check",
                 "type": "shell",
-                "command": "cargo check",
+                "command": "cargo",
+                "args": [
+                    "check"
+                ],
                 "problemMatcher": [],
                 "group": "none"
             },
             {
-                "label": "Build Debug",
+                "label": "Build Dev",
                 "type": "shell",
-                "command": "cargo build",
+                "command": "cargo",
+                "args": [
+                    "build",
+                ],
                 "problemMatcher": [],
                 "group": {
                     "kind": "build",
@@ -34,19 +40,56 @@ Below are some useful config files for building, running and debugging in VS Cod
             {
                 "label": "Build Release",
                 "type": "shell",
-                "command": "cargo build --release",
+                "command": "cargo",
+                "args": [
+                    "build",
+                    "--release"
+                ],
                 "problemMatcher": [],
                 "group": "build"
             },
             {
                 "label": "Test",
                 "type": "shell",
-                "command": "cargo test",
+                "command": "cargo",
+                "args": [
+                    "test"
+                ],
                 "problemMatcher": [],
                 "group": {
                     "kind": "test",
                     "isDefault": true
                 }
+            },
+            {
+                "label": "Build Documentation",
+                "type": "shell",
+                "command": "cargo",
+                "args": [
+                    "doc"
+                ],
+                "problemMatcher": [],
+                "group": "none"
+            },
+            {
+                "label": "Build Documentation & Open",
+                "type": "shell",
+                "command": "cargo",
+                "args": [
+                    "doc",
+                    "--open"
+                ],
+                "linux": {
+                    // See this: https://stackoverflow.com/a/66210360
+                    "command": "setsid",
+                    "args": [
+                        "cargo",
+                        "doc",
+                        "--open"
+                    ],
+                },
+                "problemMatcher": [],
+                "group": "none"
             }
         ]
     }
@@ -62,9 +105,8 @@ Below are some useful config files for building, running and debugging in VS Cod
         "version": "0.2.0",
         "configurations": [
             {
-                "name": "(gdb) Launch",
+                "name": "Launch",
                 "type": "cppdbg",
-                "miDebuggerPath": "rust-gdb",
                 "request": "launch",
                 "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
                 "args": [],
@@ -72,20 +114,27 @@ Below are some useful config files for building, running and debugging in VS Cod
                 "cwd": "${workspaceFolder}",
                 "environment": [],
                 "externalConsole": false,
-                "MIMode": "gdb",
-                "setupCommands": [
-                    {
-                        "description": "Enable pretty-printing for gdb",
-                        "text": "-enable-pretty-printing",
-                        "ignoreFailures": true
-                    }
-                ]
+                "linux": {
+                    "miDebuggerPath": "rust-gdb",
+                    "MIMode": "gdb",
+                    "setupCommands": [
+                        {
+                            "description": "Enable pretty-printing for gdb",
+                            "text": "-enable-pretty-printing",
+                            "ignoreFailures": true
+                        }
+                    ]
+                },
+                "windows": {
+                    "type": "cppvsdbg",
+                    "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}.exe",
+                    "console": "externalTerminal"
+                }
             },
             {
-                "name": "(gdb) Build (Debug) & Launch",
+                "name": "Build (Dev) & Launch",
                 "type": "cppdbg",
-                "miDebuggerPath": "rust-gdb",
-                "preLaunchTask": "Build Debug",
+                "preLaunchTask": "Build Dev",
                 "request": "launch",
                 "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
                 "args": [],
@@ -93,83 +142,50 @@ Below are some useful config files for building, running and debugging in VS Cod
                 "cwd": "${workspaceFolder}",
                 "environment": [],
                 "externalConsole": false,
-                "MIMode": "gdb",
-                "setupCommands": [
-                    {
-                        "description": "Enable pretty-printing for gdb",
-                        "text": "-enable-pretty-printing",
-                        "ignoreFailures": true
-                    }
-                ]
+                "linux": {
+                    "miDebuggerPath": "rust-gdb",
+                    "MIMode": "gdb",
+                    "setupCommands": [
+                        {
+                            "description": "Enable pretty-printing for gdb",
+                            "text": "-enable-pretty-printing",
+                            "ignoreFailures": true
+                        }
+                    ]
+                },
+                "windows": {
+                    "type": "cppvsdbg",
+                    "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}.exe",
+                    "console": "externalTerminal"
+                }
             },
             {
-                "name": "(gdb) Build (Release) & Launch",
+                "name": "Build (Release) & Launch",
                 "type": "cppdbg",
-                "miDebuggerPath": "rust-gdb",
                 "preLaunchTask": "Build Release",
                 "request": "launch",
-                "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
+                "program": "${workspaceFolder}/target/release/${workspaceFolderBasename}",
                 "args": [],
                 "stopAtEntry": false,
                 "cwd": "${workspaceFolder}",
                 "environment": [],
                 "externalConsole": false,
-                "MIMode": "gdb",
-                "setupCommands": [
-                    {
-                        "description": "Enable pretty-printing for gdb",
-                        "text": "-enable-pretty-printing",
-                        "ignoreFailures": true
-                    }
-                ]
-            }
-        ]
-    }
-    ```
-
-* **`launch.json` (Visual C++ on Windows)**
-
-    ```jsonc
-    {
-        // Use IntelliSense to learn about possible attributes.
-        // Hover to view descriptions of existing attributes.
-        // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-        "version": "0.2.0",
-        "configurations": [
-            {
-                "name": "(Windows) Launch",
-                "type": "cppvsdbg",
-                "request": "launch",
-                "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}.exe",
-                "args": [],
-                "stopAtEntry": false,
-                "cwd": "${workspaceFolder}",
-                "environment": [],
-                "console": "externalTerminal"
-            },
-            {
-                "name": "(Windows) Build (Debug) & Launch",
-                "type": "cppvsdbg",
-                "preLaunchTask": "Build Debug",
-                "request": "launch",
-                "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}.exe",
-                "args": [],
-                "stopAtEntry": false,
-                "cwd": "${workspaceFolder}",
-                "environment": [],
-                "console": "externalTerminal"
-            },
-            {
-                "name": "(Windows) Build (Release) & Launch",
-                "type": "cppvsdbg",
-                "preLaunchTask": "Build Release",
-                "request": "launch",
-                "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}.exe",
-                "args": [],
-                "stopAtEntry": false,
-                "cwd": "${workspaceFolder}",
-                "environment": [],
-                "console": "externalTerminal"
+                "linux": {
+                    "miDebuggerPath": "rust-gdb",
+                    "MIMode": "gdb",
+                    "setupCommands": [
+                        {
+                            "description": "Enable pretty-printing for gdb",
+                            "text": "-enable-pretty-printing",
+                            "ignoreFailures": true
+                        }
+                    ]
+                },
+                "windows": {
+                    "type": "cppvsdbg",
+                    "program": "${workspaceFolder}/target/release/${workspaceFolderBasename}.exe",
+                    "console": "externalTerminal"
+                }
             }
         ]
     }

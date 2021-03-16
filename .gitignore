@@ -13,6 +13,3 @@
 # These are Windows binaries
 *.exe
 *.pdb
-
-# VS Code files
-**/.vscode
