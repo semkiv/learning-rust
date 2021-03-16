@@ -95,7 +95,7 @@ Below are some useful config files for building, running and debugging in VS Cod
     }
     ```
 
-* **`launch.json` (GDB on Linux)**
+* **`launch.json`**
 
     ```jsonc
     {
