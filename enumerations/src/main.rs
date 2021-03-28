@@ -36,7 +36,8 @@ fn main() {
     println!("Home: {:?}, loopback: {:?}", home, loopback);
 
     let msgs = [
-        Message::ChangeColor(255, 255, 255),
+        Message::ChangeColor(Color::Rgb(255, 255, 255)),
+        Message::ChangeColor(Color::Hsv(0, 0, 0)),
         Message::Move { x: 42, y: -42 },
         Message::Quit,
         Message::Write(String::from("Hello world!")),
