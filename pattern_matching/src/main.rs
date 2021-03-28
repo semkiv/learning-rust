@@ -121,7 +121,7 @@ fn destructuring() {
     let Point { x: a, y: b, z: c } = p; // variable names don't necessarily have to match struct members names
     assert_eq!(a, 0);
     assert_eq!(b, 7);
-    assert_eq!(c, 7);
+    assert_eq!(c, 0);
 
     match p {
         Point { x: 0, y: 0, z: 0 } => println!("At the origin"), // we can use literals when destructuring a struct
