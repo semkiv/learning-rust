@@ -4,20 +4,27 @@ enum IpAddr {
     V6(String),
 }
 
+enum Color {
+    Rgb(u32, u32, u32),
+    Hsv(u32, u32, u32),
+}
+
 enum Message {
     Quit,
     Move { x: i32, y: i32 },
     Write(String),
-    ChangeColor(u8, u8, u8),
+    ChangeColor(Color),
 }
 
 impl Message { // enuns can have implementations just like structs
     fn call(&self) {
         match self {
-            Message::Quit => println!("Quitting"),
-            Message::Move { x, y } => println!("Moving to x = {}, y = {}", x, y),
-            Message::Write(msg) => println!("Writing message '{}'", msg),
-            Message::ChangeColor(r, g, b) => println!("Changing color to rgb({}, {}, {})", r, g, b),
+            // a pattern to destructure an enum corresponds to the data stored in it
+            Message::Quit => println!("Quitting"), // enum variants without data can be matched on the literal only, they cannot be destructured any further
+            Message::Move { x, y } => println!("Moving to x = {}, y = {}", x, y), // struct-like enums can be destructured just like structs
+            Message::Write(msg) => println!("Writing message '{}'", msg), // tuple-like enums are destructured similarly to tuples
+            Message::ChangeColor(Color::Rgb(r, g, b)) => println!("Changing color to rgb({}, {}, {})", r, g, b), // there can be more complex patterns like matching the nested enum values
+            Message::ChangeColor(Color::Hsv(h, s, v)) => println!("Changing color to hsv({}, {}, {})", h, s, v),
         }
     }
 }
