@@ -28,7 +28,7 @@ unsafe trait UnsafeSuperpowers {
     fn union_fields();
 }
 
-struct Foo {}
+struct Foo;
 
 // the `unsafe impl {}` block is used to declare that a programmer has checked that the contracts the compiler can't check have been upheld inside it
 unsafe impl UnsafeSuperpowers for Foo {
