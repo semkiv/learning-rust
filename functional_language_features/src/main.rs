@@ -33,7 +33,7 @@ impl CountToFive {
 }
 
 impl Iterator for CountToFive {
-    type Item = u32; // `Iterator` trait has an associated type `Item` that corresponds to the type of the dereferenced iterator
+    type Item = u32; // `Iterator` trait has an associated type `Item` that corresponds to the type of the dereferenced iterator; compared to declaring `Iterator` like `pub trait Iterator<T>` this has the advantage that there's only one type substituted instead of `Item` for each type implementing `Iterator`; if it was `pub trait Iterator<T>` we could have implementation like `Iterator<u32> for CountToFive`, `Iterator<String> for CountToFive` etc and would need to provide annotations for each call to `next`
 
     // `next` method is the only method of the `Iterator` trait that has to be implemented; most of the others are implemented in terms of this method
     fn next(&mut self) -> Option<Self::Item> {
