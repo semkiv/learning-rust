@@ -29,13 +29,13 @@ impl<T: Display> Display for Wrapper<T> {
 impl<T> Deref for Wrapper<T> {
     type Target = Vec<T>;
 
-    fn deref(&self) -> &Vec<T> {
+    fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
 impl<T> DerefMut for Wrapper<T> {
-    fn deref_mut(&mut self) -> &mut Vec<T> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
 }
