@@ -23,7 +23,7 @@ fn main() {
 
         let guess: i32 = match guess.trim().parse() {
             Ok(num) => Guess::new(num).value(),
-            Err(_) => continue,
+            Err(_) => continue, // `continue` expression returns never type (`!`) which coerces into any type, including `i32`, and moves the control at the top of the loop; that's why this match expression (whose arms must all have the same type) compiles
         };
 
         println!("You guessed: {}", guess);

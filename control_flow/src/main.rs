@@ -7,6 +7,7 @@ fn main() {
 fn general_loop() {
     let mut counter = 0;
 
+    // `loop` returns never type (`!`) which coerces into any type, including `i32` returned by the `break` expression below; this is what makes this construction compile
     let result = loop {
         counter += 1;
 
