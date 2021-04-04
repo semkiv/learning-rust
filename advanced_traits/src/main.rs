@@ -1,87 +1,18 @@
-use std::ops::Add;
-
-#[derive(Debug, PartialEq)]
-struct Millimeters(u32);
-
-#[derive(Debug, PartialEq)]
-struct Meters(u32);
-
-// we can overload operator `+` by implementing `Add` trait for the type; `Add<Rhs=Self>` is a generic trait with the generic type parameter that specifies the type of the other operand; this generic type parameter defaults to `Self`, i.e. the other parameter by default has the same type
-impl Add<Meters> for Millimeters {
-    type Output = Millimeters; // `Add` trait also has `Output` associated type corresponding to the type of result
-
-    fn add(self, other: Meters) -> Millimeters {
-        Millimeters(self.0 + (other.0 * 1000))
-    }
-}
-
-impl Add<Millimeters> for Meters {
-    type Output = Millimeters;
-
-    fn add(self, other: Millimeters) -> Millimeters {
-        Millimeters(self.0 * 1000 + other.0)
-    }
-}
-
-trait Animal {
-    fn baby_name() -> String;
-}
-
-trait Wizard {
-    fn fly(&self);
-}
-
-struct Human;
-
-impl Human {
-    // there's nothing that prevents types implementing traits to have associated functions and/or methods with the same name as the trait they implement has
-    fn baby_name() -> String {
-        String::from("Junior")
-    }
-
-    fn fly(&self) {
-        println!("*waving arms furiously*");
-    }
-}
-
-impl Animal for Human {
-    fn baby_name() -> String {
-        String::from("kid")
-    }
-}
-
-impl Wizard for Human {
-    fn fly(&self) {
-        println!("Up!");
-    }
-}
-
-struct Dog;
-
-impl Dog {
-    fn baby_name() -> String {
-        String::from("Spot")
-    }
-
-    fn fly(&self) {
-        println!("🐶");
-    }
-}
-
-impl Animal for Dog {
-    fn baby_name() -> String {
-        String::from("puppy")
-    }
-}
-
-impl Wizard for Dog {
-    fn fly(&self) {
-        println!("Woof!");
-    }
-}
+use advanced_traits::{
+    beings::{Animal, Dog, Human, Wizard},
+    length::{Meters, Millimeters},
+    point::{OutlinePrint, Point},
+    vec_wrapper::Wrapper,
+};
 
 fn main() {
-    assert_eq!(Meters(2) + Millimeters(2), Millimeters(2002));
+    assert_eq!(Meters::new(2) + Millimeters::new(2), Millimeters::new(2002));
+
+    (Point::new(1, 0) + Point::new(2, 3)).outline_print();
+
+    let mut v = Wrapper::new();
+    v.append(&mut vec![1, 2, 3]);
+    println!("{}", v);
 
     let person = Human;
     let dogo = Dog;
