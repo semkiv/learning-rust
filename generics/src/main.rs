@@ -29,7 +29,8 @@ fn main() {
 }
 
 // note that a slice is used as a the parameter; this makes the function more generic than specifying container type directly
-// comparisons (`<`) are not available for every possible type `T` so it won't compile unless we restrict the `T` to the types that implement `PartialOrd` (and thus `<` binary operation)
+// comparisons (`<`) are not available for every possible type `T` so it won't compile unless we restrict the `T` to the types that implement `PartialOrd` (and thus `<` binary operation);
+// Rust implicitly adds a bound on `Sized` to every generic function, that is, a generic function definition like `fn generic<T>(t: T)` is actually this: `fn generic<T: Sized>(t: T)`; we can use the special syntax `fn generic<T: ?Sized>(t: &T)` to relax this restriction (read this as "`T` may or may not be `Sized`"; works exclusively for `Sized` and not other traits)
 fn largest<T: PartialOrd>(list: &[T]) -> &T {
     let mut largest = &list[0];
 
