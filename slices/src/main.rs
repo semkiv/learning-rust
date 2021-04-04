@@ -2,7 +2,7 @@ fn main() {
     let s = String::from("Hello, world!");
     assert_eq!(dumb_first_word(&s), 6);
 
-    let hello = &s[..5]; // this is a string slice (`&str`); their range is specified as [stating_index..ending_index]; if starting_index is 0 it can be omitted
+    let hello = &s[..5]; // this is a string slice (`&str`); their range is specified as [stating_index..ending_index]; if starting_index is 0 it can be omitted; `str` itself is a dynamically sized type (DST) - a type whose size cannot be known at compile time (because strings can have arbitrary length; other notable examples of DSTs are traits - because they can be implemented by arbitrary types); in general, DSTs in Rust have an extra bit of metadata that stores the size of the dynamic information; the golden rule of DSTs is that we must always put values of DSTs behind a pointer of some kind, for instance `&str`, `Box<str>`, `Rc<str>` etc
     let world = &s[7..]; // ending index can be omitted too in which case length will be used instead of it
     println!("{}, {}", hello, world);
 
