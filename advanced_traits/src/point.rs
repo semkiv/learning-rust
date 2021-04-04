@@ -35,6 +35,7 @@ impl Point {
 }
 
 impl Add for Point {
+    // syntax `type Alias = T` defines an alias `Alias` for type `T`
     type Output = Point;
 
     fn add(self, other: Point) -> Point {
