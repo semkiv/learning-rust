@@ -1,8 +1,8 @@
-use cons_list::{List, SharedList};
+use cons_list::{list, List, shared_list, SharedList};
 use std::rc::Rc;
 
 fn main() {
-    let mut list = List::Cons(1, Box::new(List::Cons(2, Box::new(List::Cons(3, Box::new(List::Nil))))));
+    let mut list = list!(1, 2, 3);
 
     List::for_each_mut(&mut list, |x| {
         *x *= *x;
@@ -14,13 +14,7 @@ fn main() {
     });
     println!("");
 
-    let shared_list1 = Rc::new(SharedList::Cons(
-            1,
-            Rc::new(SharedList::Cons(
-                2,
-                Rc::new(SharedList::Cons(3, Rc::new(SharedList::Nil))),
-            )),
-        ));
+    let shared_list1 = shared_list!(1, 2, 3);
 
     print!("shared_list1: ");
     SharedList::for_each(&shared_list1, |x| {

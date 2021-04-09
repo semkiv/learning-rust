@@ -98,6 +98,54 @@ impl<T> SharedList<T> {
     }
 }
 
+/// A macro to facilitate creation of `List`s.
+///
+/// # Examples
+/// ```
+/// use cons_list::{list, List};
+///
+/// let constructed_explicitly = List::Cons(1, Box::new(
+///     List::Cons(2, Box::new(List::Cons(3, Box::new(List::Nil))))
+/// ));
+/// let constructed_with_macro = list!(1, 2, 3);
+/// ```
+#[macro_export]
+macro_rules! list {
+    () => (
+        List::Nil
+    );
+    ( $head:expr $( , $tail:expr )* ) => (
+        List::Cons($head, Box::new(list!( $( $tail ),* )))
+    )
+}
+
+/// A macro to facilitate creation of `SharedList`s.
+///
+/// # Examples
+/// ```
+/// use cons_list::{shared_list, SharedList};
+///
+/// use std::rc::Rc;
+///
+/// let constructed_explicitly = Rc::new(SharedList::Cons(
+///     1,
+///     Rc::new(SharedList::Cons(
+///         2,
+///         Rc::new(SharedList::Cons(3, Rc::new(SharedList::Nil))),
+///     )),
+/// ));
+/// let constructed_with_macro = shared_list!(1, 2, 3);
+/// ```
+#[macro_export]
+macro_rules! shared_list {
+    () => (
+        Rc::new(SharedList::Nil)
+    );
+    ( $head:expr $( , $tail:expr )* ) => (
+        Rc::new(SharedList::Cons($head, shared_list!( $( $tail ),* )))
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
